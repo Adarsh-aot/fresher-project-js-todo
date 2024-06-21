@@ -23,8 +23,25 @@
     
     <!-- Button trigger modal -->
 
-   
-       
+    
+      <div class="row">
+          <div class="col-md-8">
+              <div class="search-container">
+                  <i class="bi bi-search search-icon"></i>
+                  <input type="text" class="form-control search-input" placeholder="Search by task name">
+              </div>
+          </div>
+          <div class=" d-flex align-items-center">
+              <label for="sortSelect" class="me-2">Sort by:</label>
+              <select id="options" class="form-select">
+                  <option>Newest First</option>
+                  <option>Oldest First</option>
+                  
+              </select>
+          </div>
+      </div>
+  
+      
         <!-- Button to Open the Modal -->
         
       
@@ -73,6 +90,7 @@
             <div id="clear-completed"><p class="title">Completed Tasks </p><button class="clear-all-completed" onclick="clearAllcompleted()">Clear All Completed</button></div>
             <div id="completed-todo"></div>
         </div>
+        <div id="delete-todo" class="container"></div>
       
       <script src="./script.js"></script>
 </body>

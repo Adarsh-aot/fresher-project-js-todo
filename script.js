@@ -2,7 +2,23 @@ let mydata = JSON.parse(localStorage.getItem('todos')) || [];
 const todoList = document.getElementById('todo');
 const completedtodoList = document.getElementById('completed-todo');
 const update = document.getElementById('update');
+const delete_btn = document.getElementById('delete-todo');
+document.getElementById('options').addEventListener('change', handleSelectChange);
 // Function to add a new task
+
+function handleSelectChange(event) {
+    const selectedValue = event.target.value;
+    if(selectedValue === 'Newest First'){
+        renderTodos(1);
+    }
+    else{
+        renderTodos(0);
+    }
+    console.log('Selected value:', selectedValue);
+    // Additional logic to handle the change can be added here
+}
+
+
 function addTask() {
     const name = document.getElementById('name').value;
     const description = document.querySelector('.discription').value;
@@ -24,10 +40,22 @@ function addTask() {
 }
 
 // Function to render the todos (Optional, if you want to display tasks)
-function renderTodos() {
+function renderTodos(no) {
     todoList.innerHTML = ' ';
     completedtodoList.innerHTML = '';
-    mydata.forEach((todo, index) => {
+    let event = mydata;
+    console.log(event);
+    if(no == 0){
+        event.sort((a, b) => new Date(a.date) - new Date(b.date));
+        localStorage.setItem('todos', JSON.stringify(event));
+
+    }
+    else{
+        event.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('todos', JSON.stringify(event));
+    }
+    
+    event.forEach((todo, index) => {
         if(todo.completed == false){ 
         const div = document.createElement('div');
         div.className = 'todo-item';
@@ -36,7 +64,7 @@ function renderTodos() {
             
             
             <div class="todo-content">
-                <input type="radio" name="completed" id="" class="completed" onclick="complete(${index})"> 
+                <input type="radio" name="completed" id="" class="completed" onclick="complete_elemet(${index})"> 
                  <div class="content">
                     <div class="color-row"><h1>${todo.name} </h1><p class="color"></p></div>
                     <p>d${todo.description} </p>
@@ -48,7 +76,7 @@ function renderTodos() {
             </div>
             <div>
                 <button class="edit-btn" ><img src="./Pictures/Group 817.svg" alt="" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})"></button>
-            <button class="delete-btn" onclick="deleteTodo(${index})"><img src="./Pictures/Group.svg" alt=""></button>
+                <button class="delete-btn" ><img src="./Pictures/Group.svg" alt="" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})"></button>
             </div>
 
             
@@ -64,7 +92,8 @@ function renderTodos() {
             
             
             <div class="todo-content">
-                <input type="radio" name="completed" id="" class="completed" onclick="complete(${index})"> 
+                <input type="radio" name="completed" id="" class="completed" onclick="complete_elemet(${index})"> 
+                
                  <div class="content">
                     <div class="color-row"><h1>${todo.name} </h1><p class="completed-color"></p></div>
                     <p>d${todo.description} </p>
@@ -76,7 +105,7 @@ function renderTodos() {
             </div>
             <div>
                 <button class="edit-btn" ><img src="./Pictures/Group 817.svg" alt="" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})"></button>
-            <button class="delete-btn" onclick="deleteTodo(${index})"><img src="./Pictures/Group.svg" alt=""></button>
+                <button class="delete-btn" ><img src="./Pictures/Group.svg" alt="" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})"></button>
             </div>
             
             
@@ -87,7 +116,7 @@ function renderTodos() {
     });
 }
 
-function complete(index){
+function complete_elemet(index){
     let storedArray = JSON.parse(localStorage.getItem('todos'));
     let updated = storedArray[index];
     storedArray[index].completed = true ;
@@ -191,3 +220,39 @@ function updateLocalStorage() {
 
 // Call renderTodos on page load (Optional)
 window.onload = renderTodos;
+
+
+
+
+
+
+
+function deletemodal(index){
+    delete_btn.innerHTML = `
+    <div class="modal" id="myModaldelete-todo">
+          <div class="modal-dialog">
+            <div class="modal-content" style="width:654px;height:237px;">
+            
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Add Task</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              
+              <!-- Modal body -->
+              <div class="modal-body">
+                
+                Are you sure you want to delete this task?
+              </div>
+              
+              <!-- Modal footer -->
+              <div class="modal-footer" style="justify-content: center; ">
+                <button type="button" class="btn cancel-task-btn" class="close" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary add-task-btn add-btn" onclick="deleteTodo(${index})" data-dismiss="modal"style="background-color:#C0070B;">Delete</button>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+`
+}
