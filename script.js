@@ -9,10 +9,10 @@ document.getElementById('options').addEventListener('change', handleSelectChange
 function handleSelectChange(event) {
     const selectedValue = event.target.value;
     if(selectedValue === 'Newest First'){
-        renderTodos(1);
+        renderTodos();
     }
     else{
-        renderTodos(0);
+        renderTodos(1);
     }
     console.log('Selected value:', selectedValue);
     // Additional logic to handle the change can be added here
@@ -40,7 +40,7 @@ function addTask() {
 }
 
 // Function to render the todos (Optional, if you want to display tasks)
-function renderTodos(no) {
+function renderTodos(no = 0) {
     todoList.innerHTML = ' ';
     completedtodoList.innerHTML = '';
     let event = mydata;
@@ -54,23 +54,25 @@ function renderTodos(no) {
         event.sort((a, b) => new Date(b.date) - new Date(a.date));
         localStorage.setItem('todos', JSON.stringify(event));
     }
-    
+    let date = new Date();
     event.forEach((todo, index) => {
-        if(todo.completed == false){ 
         const div = document.createElement('div');
         div.className = 'todo-item';
-        div.innerHTML = `
+        if(todo.completed == false){ 
+        let givenDate = new Date(todo.date);
+        if(givenDate < date){
+            div.innerHTML = `
             
             
             
             <div class="todo-content">
-                <input type="radio" name="completed" id="" class="completed" onclick="complete_elemet(${index})"> 
+                <input type="radio" name="completed" id="" class="completed" onclick="complete_element(${index})"> 
                  <div class="content">
                     <div class="color-row"><h1>${todo.name} </h1><p class="color"></p></div>
                     <p>d${todo.description} </p>
-                    <div class="calander">
-                    <img src="./Pictures/calendar_month_black_24dp 2.svg" alt="">
-                    <p>${todo.date}</p>
+                    <div class="calander red-btn">
+                    <img src="./Pictures/Vector (2).svg" alt="">
+                    <p><span></span>by ${todo.date}</p>
                 </div>
                 
             </div>
@@ -85,6 +87,38 @@ function renderTodos(no) {
         todoList.appendChild(div);
         }
         else{
+
+        
+
+    
+        
+        div.innerHTML = `
+            
+            
+            
+            <div class="todo-content">
+                <input type="radio" name="completed" id="" class="completed" onclick="complete_element(${index})"> 
+                 <div class="content">
+                    <div class="color-row"><h1>${todo.name} </h1><p class="color"></p></div>
+                    <p>d${todo.description} </p>
+                    <div class="calander">
+                    <img src="./Pictures/calendar_month_black_24dp 2.svg" alt="">
+                    <p><span></span>by ${todo.date}</p>
+                </div>
+                
+            </div>
+            <div>
+                <button class="edit-btn" ><img src="./Pictures/Group 817.svg" alt="" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})"></button>
+                <button class="delete-btn" ><img src="./Pictures/Group.svg" alt="" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})"></button>
+            </div>
+
+            
+            
+        `;
+        todoList.appendChild(div);
+        }
+    }
+        else{
             const div = document.createElement('div');
         div.className = 'todo-item';
         div.innerHTML = `
@@ -92,14 +126,18 @@ function renderTodos(no) {
             
             
             <div class="todo-content">
-                <input type="radio" name="completed" id="" class="completed" onclick="complete_elemet(${index})"> 
+                
+                <div class="complete">
+                    <img src="./Pictures/Group 761.svg" alt="" onclick="active_element(${index})">
+                    <img src="./Pictures/Group 761.svg" alt="" style="display:none;"f>
+                </div>
                 
                  <div class="content">
                     <div class="color-row"><h1>${todo.name} </h1><p class="completed-color"></p></div>
                     <p>d${todo.description} </p>
                     <div class="calander">
                     <img src="./Pictures/calendar_month_black_24dp 2.svg" alt="">
-                    <p>${todo.date}</p>
+                    <p><span></span>by ${todo.date}</p>
                 </div>
                 
             </div>
@@ -116,10 +154,20 @@ function renderTodos(no) {
     });
 }
 
-function complete_elemet(index){
+function complete_element(index){
     let storedArray = JSON.parse(localStorage.getItem('todos'));
     let updated = storedArray[index];
     storedArray[index].completed = true ;
+    localStorage.setItem('todos', JSON.stringify(storedArray));
+    window.location.reload();
+    console.log("complete")
+}
+
+
+function active_element(index){
+    let storedArray = JSON.parse(localStorage.getItem('todos'));
+    let updated = storedArray[index];
+    storedArray[index].completed = false ;
     localStorage.setItem('todos', JSON.stringify(storedArray));
     window.location.reload();
     console.log("complete")

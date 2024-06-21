@@ -314,6 +314,7 @@ opacity: 0px;
 
 .calander{
     width:10%;
+    width : 148px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -328,7 +329,10 @@ opacity: 0px;
 
 }
 
-
+span{
+    margin-left:10px;
+    /* padding-left: 10px; */
+}
 
 .edit-btn , .delete-btn {
     background-color: white;
@@ -401,13 +405,34 @@ option:hover{
 }
 
 
+.search-box{
+    display: flex;
+    
+}
+
+.search-box > input {
+    background-color: white;
+    border:1px solid  black;
+    border-right : 0px solid white;
+    border-radius: 0.25rem 0rem 0rem 0.25rem;
+
+}
 
 
 
 
+.search-box > button {
+    background-color: white;
+    border-left : 0px solid white;
+    border-radius: 0rem 0.25rem 0.25rem 0rem;
+}
 
+.red-btn{
+    background-color:  #C035030F;
+    color: #C03503;
+    width : 148px;
 
-
+}
 
 /* #todo , #completed-todo{
     display: flex;
