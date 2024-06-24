@@ -18,7 +18,16 @@ function handleSelectChange(event) {
     // Additional logic to handle the change can be added here
 }
 
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
+// Set the min attribute of the date input to today's date
+document.getElementById('date').min = getTodayDate();
 function addTask() {
     const name = document.getElementById('name').value;
     const description = document.querySelector('.discription').value;
