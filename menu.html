@@ -3,85 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .task-list {
-  max-width: 1312px;
-  margin: 0 auto;
-}
-
-.task {
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.task-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.task-title {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.task-actions .btn {
-  margin-left: 5px;
-}
-
-.task-description {
-  margin-bottom: 10px;
-}
-
-.task-date {
-  font-size: 14px;
-  color: #6c757d;
-}
-    </style>
+    <title>Task Search</title>
 </head>
 <body>
-    <div class="container">
-       
-      <div class="task-list">
-        
-        <div class="task">
-          <div class="task-header">
-            <span class="task-title">Finance dashboard design</span>
-            <div class="task-actions">
-              <button class="btn btn-light"><i class="bi bi-pencil"></i></button>
-              <button class="btn btn-light"><i class="bi bi-trash"></i></button>
-            </div>
-          </div>
-          <p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultricies diam.</p>
-          <div class="task-date">by 12 Dec 2022</div>
-        </div>
-        <div class="task">
-          <div class="task-header">
-            <span class="task-title">Corporate web design</span>
-            <div class="task-actions">
-              <button class="btn btn-light"><i class="bi bi-pencil"></i></button>
-              <button class="btn btn-light"><i class="bi bi-trash"></i></button>
-            </div>
-          </div>
-          <p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultricies diam.</p>
-        </div>
-        <div class="task">
-          <div class="task-header">
-            <span class="task-title">Create two ad banners</span>
-            <div class="task-actions">
-              <button class="btn btn-light"><i class="bi bi-pencil"></i></button>
-              <button class="btn btn-light"><i class="bi bi-trash"></i></button>
-            </div>
-          </div>
-          <p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultricies diam.</p>
-          <div class="task-date">by 10 Oct 2022</div>
-        </div>
-      </div>
-    </div>
-    
+    <input type="text" id="searchInput" placeholder="Search tasks..." onkeyup="searchTasks()">
+    <ul id="taskList"></ul>
+
+    <script>
+        function searchTasks() {
+            // Get the search input value
+            let searchValue = document.getElementById('searchInput').value.toLowerCase();
+
+            // Retrieve the tasks from local storage
+            let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+            // Filter tasks based on the search input
+            let filteredTasks = tasks.filter(task => task.toLowerCase().includes(searchValue));
+
+            // Display the filtered tasks
+            let taskList = document.getElementById('taskList');
+            taskList.innerHTML = ''; // Clear the previous list
+
+            filteredTasks.forEach(task => {
+                let li = document.createElement('li');
+                li.textContent = task;
+                taskList.appendChild(li);
+            });
+        }
+    </script>
 </body>
 </html>

@@ -271,7 +271,113 @@ window.onload = renderTodos;
 
 
 
+function searchTasks() {
+    // Get the search input value
+    let searchValue = document.getElementById('searchInput').value.toLowerCase();
 
+    // Retrieve the tasks from local storage
+    let tasks = JSON.parse(localStorage.getItem('todos')) || [];
+
+    // Filter tasks based on the search input
+    let filteredTasks = tasks.filter(task => task.name.toLowerCase().includes(searchValue));
+
+    // Display the filtered tasks
+    
+    
+    todoList.innerHTML = ''; // Clear the previous list
+    completedtodoList.innerHTML = ''; // Clear the previous list
+
+    let date = new Date();
+    filteredTasks.forEach((todo, index) => {
+        const div = document.createElement('div');
+        div.className = 'todo-item';
+        let givenDate = new Date(todo.date);
+
+        if (todo.completed == false) { 
+            if (givenDate < date) {
+                div.innerHTML = `
+                    <div class="todo-content">
+                        <input type="radio" name="completed" class="completed" onclick="complete_element(${index})"> 
+                        <div class="content">
+                            <div class="color-row">
+                                <h1>${todo.name}</h1>
+                                <p class="color"></p>
+                            </div>
+                            <p>${todo.description}</p>
+                            <div class="calendar red-btn">
+                                <img src="./Pictures/Vector (2).svg" alt="">
+                                <p><span></span>by ${todo.date}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="edit-btn" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})">
+                                <img src="./Pictures/Group 817.svg" alt="">
+                            </button>
+                            <button class="delete-btn" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})">
+                                <img src="./Pictures/Group.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="todo-content">
+                        <input type="radio" name="completed" class="completed" onclick="complete_element(${index})"> 
+                        <div class="content">
+                            <div class="color-row">
+                                <h1>${todo.name}</h1>
+                                <p class="color"></p>
+                            </div>
+                            <p>${todo.description}</p>
+                            <div class="calendar">
+                                <img src="./Pictures/calendar_month_black_24dp 2.svg" alt="">
+                                <p><span></span>by ${todo.date}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="edit-btn" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})">
+                                <img src="./Pictures/Group 817.svg" alt="">
+                            </button>
+                            <button class="delete-btn" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})">
+                                <img src="./Pictures/Group.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            todoList.appendChild(div);
+        } else {
+            div.innerHTML = `
+                <div class="todo-content">
+                    <div class="complete">
+                        <img src="./Pictures/Group 761.svg" alt="" onclick="active_element(${index})">
+                        <img src="./Pictures/Group 761.svg" alt="" style="display:none;">
+                    </div>
+                    <div class="content">
+                        <div class="color-row">
+                            <h1>${todo.name}</h1>
+                            <p class="completed-color"></p>
+                        </div>
+                        <p>${todo.description}</p>
+                        <div class="calendar">
+                            <img src="./Pictures/calendar_month_black_24dp 2.svg" alt="">
+                            <p><span></span>by ${todo.date}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="edit-btn" data-toggle="modal" data-target="#myModaledit" onclick="update_content(${index})">
+                            <img src="./Pictures/Group 817.svg" alt="">
+                        </button>
+                        <button class="delete-btn" data-toggle="modal" data-target="#myModaldelete-todo" onclick="deletemodal(${index})">
+                            <img src="./Pictures/Group.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+            `;
+            completedtodoList.appendChild(div);
+        }
+    });
+}
 
 
 
